@@ -1,0 +1,24 @@
+# Sample of how the real docker-compose.yml file should look like
+# NOTE: Instead of manually declaring the environment variables here, it is also possible to have them separately on a .env file
+
+version: '3'
+
+services:
+  agile-lora:
+    container_name: cayenne-adapter
+    image: vicinity/cayenne-adapter
+    build: ./
+    environment:
+      - VICINITY_AGENT_ID="AGENT_ID"  # Development
+      - VICINITY_AGENT_PASSWORD="AGENT_PASSWORD"
+      - VICINITY_GATEWAY_API_ID="username"
+      - VICINITY_GATEWAY_API_PASSWORD="pwd"
+      - LORAWAN_APP_SERVER="LoRaServer" or "TTN"
+      - LORAWAN_APPID="app_name"
+      - LORAWAN_PSW="application_server_psswd"
+      - LORAWAN_MQTT_URL="mqtt_broker_url"   
+      - LORAWAN_MQTT_PORT=1883    
+    ports:
+      - 9995:9995/tcp
+    restart: always    
+    network_mode: "host"
