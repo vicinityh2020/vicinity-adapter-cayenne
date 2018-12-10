@@ -37,8 +37,8 @@ class LoRaServerClient (threading.Thread):
       self._validator = ThingDescriptionValidation()
       
       self._active_timer = {}      
-      # self._thread = threading.Thread(target=self.Start, name='LoRaServer_thread')      
-      self._thread = threading.Thread(target=self.TestParser, name='LoRaServer_thread')
+      self._thread = threading.Thread(target=self.Start, name='LoRaServer_thread')      
+      # self._thread = threading.Thread(target=self.TestParser, name='LoRaServer_thread')
       self._loraserver_topic = 'application/+/node/+/rx'
       self._thread.daemon = True
       self._thread.start()       
@@ -49,15 +49,16 @@ class LoRaServerClient (threading.Thread):
       self._active_timer.start()
       self._mqttc = mqtt.Client()  
 
-      # random_value = random.randint(0,0)
+      random_value = random.randint(0,3)
 
       raw = {
             'applicationID': '1',
             'applicationName': 'my-app',
-            'deviceName': 'Seeduino' ,            
-            'devEUI': '3339343771356214' ,         
+            # 'deviceName': 'Seeduino' ,            
+            # 'devEUI': '3339343771356214' ,         
             # 'deviceName': 'Seeduino_' + str(random_value),            
-            # 'devEUI': '3339343771356214' + str(random_value),            
+            'deviceName': '333934377135621' + str(random_value),          
+            'devEUI': '333934377135621' + str(random_value),            
             'rxInfo': [
                   {
                         'mac': '0000000000010203',
@@ -151,7 +152,7 @@ class LoRaServerClient (threading.Thread):
             data["events"].append(self.AddEvent(i, data["oid"]))   
             data["values"].append(self.AddValue(i, payload['rxInfo'][0]['time']))   
 
-      self._logger.debug("Message received - " + data['oid'])              
+      # self._logger.debug("Message received - " + data['oid'])              
 
       # NOTE: If the validation is not carried out, the validator returns a "success" output
       validation = self._validator.validate(data)       
@@ -166,7 +167,7 @@ class LoRaServerClient (threading.Thread):
          "pid": property["id"],
          "monitors": property["type"],
          "read_link": {
-            "href": "/device/" + oid + "/property/" + property["id"],
+            "href": "/objects/" + oid + "/properties/" + property["id"],
             "output": {
             "type": "object",
             "field": [{

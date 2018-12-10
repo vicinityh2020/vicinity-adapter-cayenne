@@ -36,7 +36,6 @@ from flask_server import FlaskServer
 LOGLEVEL = logging.DEBUG       # DEBUG, INFO, WARNING, ERROR, CRITICAL
 BASE_URL = '/adapter'
 
-
 def endProgram(status):   
    logging.debug("Program finished")
    sys.exit(status)

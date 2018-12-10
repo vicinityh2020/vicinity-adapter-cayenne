@@ -90,7 +90,7 @@ class TtnClient (threading.Thread):
 
    def ParsePayload(self,payload):
       data = {
-            "name": payload["dev_id"],
+            "name": "CAYENNE-" + payload["dev_id"],
             "oid": payload["hardware_serial"],            
             "type": "core:Device",
             "properties": [],
@@ -117,7 +117,7 @@ class TtnClient (threading.Thread):
          "pid": property["id"],
          "monitors": property["type"],
          "read_link": {
-            "href": "/device/" + oid + "/property/" + property["id"],
+            "href": "/objects/" + oid + "/properties/" + property["id"],
             "output": {
             "type": "object",
             "field": [{

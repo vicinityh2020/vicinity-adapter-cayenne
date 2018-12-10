@@ -21,7 +21,6 @@ import datetime
 import pydash as py_
 import json
 
-
 BASE_URL = '/adapter'
 ADAPTER_ID = 'adapter-cayenne'
 
@@ -41,23 +40,22 @@ def get_object_from_id(oid, pid):
     hit_values = py_.find(hit_oid['values'], {'pid': pid})
     return jsonify(py_.omit(hit_values,'pid'))
   else:
-    content = {'please move along': 'nothing to see here'}
+    content = {'Device or property not found'}
     abort(404)
 
-@app.route(BASE_URL + '/device/<string:oid>/property/<string:pid>', methods=['GET'])
-def get_device_from_id(oid, pid):      
-  hit_oid = py_.find(objects['thing-descriptions'], {'oid': oid})
-  if hit_oid:
-    hit_values = py_.find(hit_oid['values'], {'pid': pid})
-    return jsonify(py_.omit(hit_values,'pid'))
-  else:
-    content = {'please move along': 'nothing to see here'}
-    abort(404)
+# @app.route(BASE_URL + '/device/<string:oid>/property/<string:pid>', methods=['GET'])
+# def get_device_from_id(oid, pid):      
+#   hit_oid = py_.find(objects['thing-descriptions'], {'oid': oid})
+#   if hit_oid:
+#     hit_values = py_.find(hit_oid['values'], {'pid': pid})
+#     return jsonify(py_.omit(hit_values,'pid'))
+#   else:
+#     content = {'please move along': 'nothing to see here'}
+#     abort(404)
     
 # NOTE: To make this work, the HTTP header must contain the "Content-Type" field set to "application/json"
 @app.route(BASE_URL + '/objects/<string:oid>/properties/<string:pid>', methods=['PUT'])
-def update_object_property(oid, pid):        
-
+def update_object_property(oid, pid):   
   body = request.json
   hit_oid = py_.find(objects['thing-descriptions'], {'oid': oid})
   if hit_oid:

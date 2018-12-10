@@ -79,7 +79,7 @@ dictionary = {
   'RSSI': {
     'unit': 'dBm',
     'format': 'float',
-    # 'type': 'RssiSensot'
+    # 'type': 'RssiSensor'
   },
   'Accelerometer': {
     'unit': 'G',

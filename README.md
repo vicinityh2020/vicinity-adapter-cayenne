@@ -21,7 +21,7 @@
 
 This adapter brings an end-to-end communication with LoRaWAN (Class A) nodes. Digging a little bit into the details, the adapter subscribers to either TTN/LoRaServer's MQTT Brokers and manages the exchange of information with the AGILE agent.
 
-| ![Cayenne adapter architecture Placeholder]() | 
+| ![Cayenne adapter architecture Placeholder](../docs/cayenne-adapter.png) | 
 |:--:|
 | *Cayenne adapter architecture (TBD)* |
 
