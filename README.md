@@ -19,7 +19,7 @@
 
 ## Architecture
 
-This adapter brings an end-to-end communication with LoRaWAN (Class A) nodes. Digging a little bit into the details, the adapter subscribers to either TTN/LoRaServer's MQTT Brokers and manages the exchange of information with the AGILE agent.
+This adapter brings an end-to-end communication with LoRaWAN (Class A) nodes. Digging a little bit into the details, sudo the adapter subscribers to either TTN/LoRaServer's MQTT Brokers and manages the exchange of information with the AGILE agent.
 
 | ![Cayenne adapter architecture Placeholder](docs/cayenne-adapter.png) | 
 |:--:|
@@ -44,7 +44,7 @@ LORAWAN_MQTT_PORT=1883  # Port where MQTT is listening (by default, 1883)
 As hinted above, concerning the LoRaWAN realm, two options are available (*TTN* or *LoRaServer*), with slight differences between each other. For a deeper understanding, please refer to [TTN](https://www.thethingsnetwork.org/docs/applications/mqtt/) and [LoRaServer](https://www.loraserver.io/install/mqtt-auth/) MQTT documentation. 
 
 
-## Launching the protocol
+## Launching the adapter
 
   ### 1. Python scripts
 

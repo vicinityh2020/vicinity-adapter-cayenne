@@ -133,7 +133,7 @@ class LoRaServerClient (threading.Thread):
 
    def ParsePayload(self,payload):
       data = {
-            "name": payload["deviceName"],
+            "name": "CAYENNE-" + payload["deviceName"],
             "oid": payload["devEUI"],            
             "type": "core:Device",
             "properties": [],

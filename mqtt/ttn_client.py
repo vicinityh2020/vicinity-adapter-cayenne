@@ -23,6 +23,8 @@ import threading
 import logging
 import json
 
+import random # For the location workaround
+
 from thing_validation import ThingDescriptionValidation
 import components_dictionary as component
 import cayenne_parser
@@ -90,8 +92,8 @@ class TtnClient (threading.Thread):
 
    def ParsePayload(self,payload):
       data = {
-            "name": "CAYENNE-" + payload["dev_id"],
-            "oid": payload["hardware_serial"],            
+            "name": "CayenneTtn-" + payload["dev_id"],
+            "oid": "CayenneTtn-" +payload["hardware_serial"],            
             "type": "core:Device",
             "properties": [],
             "actions": [],
@@ -100,12 +102,81 @@ class TtnClient (threading.Thread):
             "values": []
       }    
 
+      # Work around for the semantic interoperability demo
+      data["located-in"] = [{
+					"location_type": "s4bldg:Building",
+					"label": "ATOS Office Santander",
+					"location_id" :"https://atos.net/es/spain"
+				},
+				{
+					"location_type": "s4bldg:BuildingSpace",
+					"label": "Office"
+				},
+				{
+					"location_type": "s4city:City",
+					"label": "Santander",
+					"location_id" : "http://dbpedia.org/page/Santander,_Spain"
+				},
+				{
+					"location_type": "s4city:Country",
+					"label": "Spain",
+					"location_id": "http://dbpedia.org/resource/Spain"
+				}
+			]
+
+      # Static GPS coordinates
+      data["properties"].append({
+					"pid": "longitude",
+					"monitors": "adapters:GPSLongitude",
+					"read_link": {
+						"href": "/objects/{oid}/properties/{pid}",
+						"static-value": {
+							"longitude_value": 43.452192 + random.uniform(-0.00005, +0.00005)
+						},
+						"output": {
+							"type": "object",
+							"field": [{
+									"name": "longitude_value",
+									"predicate": "core:value",
+									"schema": {
+										"type": "double"
+									}
+								}
+							]
+						}
+					}
+      })
+
+      data["properties"].append({
+					"pid": "latitude",
+					"monitors": "adapters:GPSLatitude",
+					"read_link": {
+						"href": "/objects/{oid}/properties/{pid}",
+						"static-value": {
+							"latitude_value": -3.874887 + random.uniform(-0.00005, +0.00005)
+						},
+						"output": {
+							"type": "object",
+							"field": [{
+									"name": "latitude_value",
+									"predicate": "core:value",
+									"schema": {
+										"type": "double"
+									}
+								}
+							]
+						}
+					}
+				})
+
+      #  End of workaround
+
       # Parse the payload field 
       properties = self._cayenne.decodeCayenneLpp(payload['payload_raw'], str(payload['metadata']['time']))           
       for i in properties:         
          if "type" in i:
             data["properties"].append(self.AddProperty(i, data["oid"]))  
-            data["events"].append(self.AddEvent(i, data["oid"]))   
+            # data["events"].append(self.AddEvent(i, data["oid"]))   
             data["values"].append(self.AddValue(i, payload['metadata']['time']))      
 
       self._logger.debug("Message received - " + data['oid'])   
@@ -117,7 +188,7 @@ class TtnClient (threading.Thread):
          "pid": property["id"],
          "monitors": property["type"],
          "read_link": {
-            "href": "/objects/" + oid + "/properties/" + property["id"],
+            "href": "/objects/{oid}/properties/{pid}",
             "output": {
             "type": "object",
             "field": [{
@@ -128,9 +199,10 @@ class TtnClient (threading.Thread):
             },
             {
                "name": "value",
+               "predicate": "core:value",
                "schema": {
             #    "type": component.dictionary[property["id"]]["format"]
-                  "type": "integer"
+                  "type": "double"
                }
             }]
             }
