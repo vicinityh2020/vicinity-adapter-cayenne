@@ -135,7 +135,8 @@ class LoRaServerClient (threading.Thread):
       data = {
             "name": "CAYENNE-" + payload["deviceName"],
             "oid": payload["devEUI"],            
-            "type": "core:Device",
+            # "type": "core:Device",
+            "type": "adapters:Thermostat",
             "properties": [],
             "actions": [],
             "events": [],
