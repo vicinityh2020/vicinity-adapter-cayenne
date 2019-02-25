@@ -94,7 +94,8 @@ class TtnClient (threading.Thread):
       data = {
             "name": "CayenneTtn-" + payload["dev_id"],
             "oid": "CayenneTtn-" +payload["hardware_serial"],            
-            "type": "core:Device",
+            # "type": "core:Device",
+            "type": "adapters:Thermostat",
             "properties": [],
             "actions": [],
             "events": [],
