@@ -132,7 +132,7 @@ class TtnClient (threading.Thread):
 					"read_link": {
 						"href": "/objects/{oid}/properties/{pid}",
 						"static-value": {
-							"longitude_value": 43.452192 + random.uniform(-0.00005, +0.00005)
+							"longitude_value": -3.874887 + random.uniform(-0.00005, +0.00005)
 						},
 						"output": {
 							"type": "object",
@@ -154,7 +154,7 @@ class TtnClient (threading.Thread):
 					"read_link": {
 						"href": "/objects/{oid}/properties/{pid}",
 						"static-value": {
-							"latitude_value": -3.874887 + random.uniform(-0.00005, +0.00005)
+							"latitude_value": 43.452192  + random.uniform(-0.00005, +0.00005)
 						},
 						"output": {
 							"type": "object",
